@@ -1,0 +1,2 @@
+import React from 'react';import {createRoot} from 'react-dom/client';import {BrowserRouter,Routes,Route} from 'react-router-dom';import Shop from './Shop.jsx';import Admin from './Admin.jsx';import './styles.css';import './extra.css';
+createRoot(document.getElementById('root')).render(<BrowserRouter><Routes><Route path="/" element={<Shop/>}/><Route path="/admin" element={<Admin/>}/></Routes></BrowserRouter>);
