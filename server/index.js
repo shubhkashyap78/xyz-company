@@ -10,7 +10,7 @@ const Sub=mk('Subscriber',{email:{type:String,unique:true}});
 const M={products:Product,orders:Order,inquiries:Inquiry,subscribers:Sub,posts:Post};
 const auth=(q,s,n)=>{try{jwt.verify((q.headers.authorization||'').replace('Bearer ',''),JWT_SECRET);n()}catch{s.status(401).json({error:'Unauthorized'})}};
 const mod=(q,s,n)=>M[q.params.m]?n():s.sendStatus(404);
-const app=express();app.use(cors(),express.json());
+const app=express();app.use(cors({origin:['http://localhost:5173','https://xyz-company-one.vercel.app']}),express.json());
 const wrap=f=>(q,s)=>f(q,s).catch(e=>s.status(400).json({error:e.message}));
 app.post('/api/login',(q,s)=>q.body.email===ADMIN_EMAIL&&q.body.password===ADMIN_PASSWORD?s.json({token:jwt.sign({a:1},JWT_SECRET,{expiresIn:'7d'})}):s.status(401).json({error:'Wrong email or password'}));
 app.get('/api/products',wrap(async(q,s)=>s.json(await Product.find({active:true}).sort('createdAt'))));
